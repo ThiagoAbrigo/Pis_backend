@@ -16,6 +16,7 @@ def create_app():
     with app.app_context():
         from routes.api_person import api_person
         from routes.api_sessions import api_session
+        from models.rol import Rol
 
         app.register_blueprint(api_person)
         app.register_blueprint(api_session)

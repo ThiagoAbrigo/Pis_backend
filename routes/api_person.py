@@ -1,14 +1,15 @@
+from controllers.authenticateController import token_requeird
 from flask import Blueprint, jsonify, make_response, request
 from controllers.personController import PersonController
-from controllers.authenticateController import token_requeird
+from utils.utilities.schemas import schema_person;
+from flask_expects_json import expects_json
+from utils.utilities.errors import Errors
 
 api_person = Blueprint("api_person", __name__)
-
 personController = PersonController()
 
-
 @api_person.route("/person", methods=["GET"])
-@token_requeird
+
 def listPerson():
     return make_response(
         jsonify(
@@ -21,21 +22,8 @@ def listPerson():
         200,
     )
 
-@api_person.route('/person/<external>', methods = ["GET"])
-def search_external(external):
-    search = personController.search_external(external)
-    if search is None:
-        return make_response(
-            jsonify({"msg": "Person not found", "code": "404"}), 
-            404
-            )
-    else:
-        return make_response(
-            jsonify({"msg": "OK", "code": "200", "data": search.serialize}), 
-            200
-            )
-    
-@api_person.route('/person/save', methods = ["GET"])
+@api_person.route('/person/save', methods = ["POST"])
+@expects_json(schema_person)
 def createPerson():
     data = request.json
     person_id = personController.save_person(data)
