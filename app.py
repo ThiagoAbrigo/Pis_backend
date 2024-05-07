@@ -14,6 +14,8 @@ def create_app():
     app.config.from_object("config.config.config")
     db.init_app(app)
     with app.app_context():
+        from models.sensor import Sensor
+        from models.sensordata import SensorData
         from routes.api_person import api_person
         from routes.api_sessions import api_session
         
