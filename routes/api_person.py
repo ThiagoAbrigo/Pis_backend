@@ -42,3 +42,28 @@ def createPerson():
             ),
             400,
         )
+@api_person.route('/modify_person', methods=['POST'])
+@expects_json(schema_person)
+def modify_person():
+    data = request.json
+    modified_person = personController.modify_person(data)
+    if (modified_person == -3):
+        return make_response(
+            jsonify({"msg":"ERROR", "code":400,'error': Errors.error["-3"]}), 400
+        ) 
+    else:
+        return make_response(
+            jsonify({"msg":"OK", "code":200, "data": {"person_saved":"saved data"}}),200
+        )
+    
+@api_person.route('/deactivate_person/<external_id>', methods=['GET'])
+def deactivate_person(external_id):
+    success = personController.deactivate_account(external_id)
+    if success:
+        return make_response(
+            jsonify({"msg":"OK", "code":200, "data": {"account":"Deactivated account"}}),200
+        )
+    else:
+        return make_response(
+            jsonify({"msg":"ERROR", "code":400,'error': 'The person does not exist'}), 404
+        ) 
