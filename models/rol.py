@@ -1,3 +1,4 @@
+
 from app import db
 
 class Rol(db.Model):
@@ -8,3 +9,10 @@ class Rol(db.Model):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now())
     
+@property
+
+def serialize(self):
+    return{
+        'rol': self.rol,
+        'status': self.status == 1 if self.status else 0
+    }

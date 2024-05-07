@@ -1,3 +1,4 @@
+
 from app import db
 import uuid
 
@@ -23,3 +24,4 @@ class Person(db.Model):
             "external_id": self.external_id,
             "account": [i.serialize for i in self.account],
         }
+
