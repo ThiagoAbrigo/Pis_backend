@@ -12,8 +12,14 @@ schema_person = {
     "properties": {
         "name": {"type": "string"},
         "lastname": {"type": "string"},
-        "phone": {"type": "string"},
-        "ci": {"type": "string"},
+        "phone": {
+            "type": "string",
+            "pattern": "^[0-9]{10}$"
+        },
+        "ci": {
+            "type": "string",
+            "pattern": "^[0-9]{10}$"
+        },
         "email": {"type": "string"},
         "password": {
             "type": "string",
