@@ -1,3 +1,4 @@
+
 from app import db
 import uuid
 
@@ -20,6 +21,5 @@ class Person(db.Model):
         return {
             "name": self.name,
             "lastname": self.lastname,
-            "external_id": self.external_id,
-            "account": [i.serialize for i in self.account],
         }
+
