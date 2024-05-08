@@ -9,37 +9,60 @@ import uuid
 class PersonController:
     def listPerson(self):
         return Person.query.all()
+    
+    def validate_ID(self, identification):
+        if len(identification) != 10:
+            return False
+
+        coeficientes = [2, 1, 2, 1, 2, 1, 2, 1, 2]
+        suma = 0
+        for i in range(9):
+            digito = int(identification[i]) * coeficientes[i]
+            suma += digito if digito < 10 else digito - 9
+
+        total = suma % 10 if suma % 10 == 0 else 10 - suma % 10
+
+        if total == int(identification[9]):
+            return True
+        else:
+            return False
 
     def save_person(self, data):
+        repeated_account = Account.query.filter_by(email=data['email']).first()
+        if repeated_account:
+            return -2
+        
         person = Person()
-        rol = Rol.query.filter_by(rol="admin").first()
+        rol = Rol.query.filter_by(external_id = data['rol']).first()
         if rol:
-            accounts = Account.query.filter_by(email=data["email"]).first()
-            if accounts:
-                return -2
-            else:
+            if not self.validate_ID(data['identification']):
+                return -8
 
-                person.name = data["name"]
-                person.lastname = data["lastname"]
-                person.phone = data["phone"]
-                person.ci = data["ci"]
-                person.external_id = uuid.uuid4()
-                person.rol_id = rol.id
-                db.session.add(person)
+            person.name = data["name"]
+            person.lastname = data["lastname"]
+            person.phone = data["phone"]
+            person.identification= data["identification"]
+            person.external_id = uuid.uuid4()
+            person.rol_id = rol.id
+            db.session.add(person)
+            
+            try:
                 db.session.commit()
-
-                hashed_password = bcrypt.hashpw(
+            except:
+                db.session.rollback()
+                return -4
+            
+            hashed_password = bcrypt.hashpw(
                     data["password"].encode("utf-8"), bcrypt.gensalt()
                 )
-                account = Account()
-                account.email = data["email"]
-                account.password = hashed_password.decode("utf-8")
-                account.external_id = uuid.uuid4()
-                account.person_id = person.id
-                db.session.add(account)
-
-                db.session.commit()
-                return 1
+            account = Account()
+            account.email = data["email"]
+            account.password = hashed_password.decode("utf-8")
+            account.person_id = person.id
+            account.external_id = uuid.uuid4()
+            db.session.add(account)
+            db.session.commit()
+            return 1
         else:
             return -1
     def modify_person(self, data):
