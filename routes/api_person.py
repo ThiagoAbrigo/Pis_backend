@@ -5,7 +5,7 @@ from utils.utilities.schemas import schema_person
 from flask_expects_json import expects_json
 from utils.utilities.errors import Errors
 from utils.utilities.success import Success
-
+from utils.utilities.response_http import make_response_error, make_response_ok
 api_person = Blueprint("api_person", __name__)
 personController = PersonController()
 
@@ -27,21 +27,18 @@ def listPerson():
 @expects_json(schema_person)
 def createPerson():
     data = request.json
-    person_id = personController.save_person(data)
-    if person_id >= 0:
-        return make_response(
-            jsonify(
-                {"msg": "OK", "code": 200, "data": {"success": Success.success["1"]}}
-            ),
-            200,
-        )
-    else:
-        return make_response(
-            jsonify(
-                {"msg": "ERROR", "code": 400, "data": {"error": Errors.error["-1"]}}
-            ),
-            400,
-        )
+    result = personController.save_person(data)
+    if result == -2:
+        return make_response_ok({"success": Errors.error["-2"]})
+    elif result == 1:
+        return make_response_ok({"success": Success.success["1"]})
+    elif result == -1:
+        return make_response_error(Errors.error["-1"], 404)
+    elif result == -4:
+        return make_response_error(Errors.error["-4"], 500)
+    elif result == -8:
+        return make_response_error(Errors.error["-8"], 400)
+
 @api_person.route('/modify_person', methods=['POST'])
 @expects_json(schema_person)
 def modify_person():
