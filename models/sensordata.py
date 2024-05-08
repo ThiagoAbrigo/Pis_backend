@@ -9,4 +9,3 @@ class SensorData(db.Model):
     external_id = db.Column(db.VARCHAR(60), default=str(uuid.uuid4()))
     id_sensor = db.Column(db.Integer, db.ForeignKey('sensor.id'))
 
-    sensor = db.relationship('Sensor', backref='sensor_data')
