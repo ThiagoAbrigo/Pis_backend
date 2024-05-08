@@ -18,9 +18,8 @@ class SensorController:
                 db.session.add(sensor)
                 db.session.commit()
                 return 2
-            except Exception as e:
+            except:
                 db.session.rollback()
-                print(f"Error al guardar sensor en la base de datos: {e}")
                 return -9
         else:
             return -10
