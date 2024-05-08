@@ -8,4 +8,6 @@ class Errors:
         "-6": "account does not exist",
         "-7": "token invalid",
         "-8": "invalid ID",
+        "-9": "Error saving sensor",
+        "-10": "Incorrect IP address",
     }
