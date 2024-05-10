@@ -28,26 +28,6 @@ def listPerson():
 def createPerson():
     data = request.json
     result = personController.save_person(data)
-    # if result == -2:
-    #     return make_response(
-    #         jsonify({"msg":"OK", "code":200, "data": {"person_saved":"saved data"}}),200
-    #     )
-    # elif result == -2:
-    #     return make_response(
-    #         jsonify({"msg":"OK", "code":200, "data": {"person_saved":"saved data"}}),200
-    #     )
-    # elif result == 1:
-    #     return make_response(
-    #         jsonify({"msg":"OK", "code":200, "data": {"person_saved":"saved data"}}),200
-    #     )
-    # elif result == -4:
-    #     return make_response(
-    #         jsonify({"msg":"OK", "code":200, "data": {"person_saved":"saved data"}}),200
-    #     )
-    # elif result == -8:
-    #     return make_response(
-    #         jsonify({"msg":"OK", "code":200, "data": {"person_saved":"saved data"}}),200
-    #     )
     if result == -2:
         return make_response_error({"success": Errors.error["-2"]})
     elif result == 1:
