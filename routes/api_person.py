@@ -29,7 +29,7 @@ def createPerson():
     data = request.json
     result = personController.save_person(data)
     if result == -2:
-        return make_response_ok({"success": Errors.error["-2"]})
+        return make_response_error({"success": Errors.error["-2"]})
     elif result == 1:
         return make_response_ok({"success": Success.success["1"]})
     elif result == -1:
