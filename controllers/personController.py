@@ -90,14 +90,17 @@ class PersonController:
     def modify_person(self, data):
         person = Person.query.filter_by(external_id=data["external_id"]).first() 
         if person:
+            if not self.validate_ID(data['identification']):
+                return -8
+            
             if "name" in data:
                 person.name = data["name"]
             if "lastname" in data:
                 person.lastname = data["lastname"]
             if "phone" in data:
                 person.phone = data["phone"]
-            if "ci" in data:
-                person.ci = data["ci"]
+            if "identification" in data:
+                person.identification = data["identification"]
                 
             new_external_id = str(uuid.uuid4())
             person.external_id = new_external_id
@@ -106,7 +109,7 @@ class PersonController:
                 name=person.name,
                 lastname=person.lastname,
                 phone=person.phone,
-                ci=person.ci,
+                identification=person.identification,
                 external_id=new_external_id
             )
             return modified_person

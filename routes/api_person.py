@@ -49,30 +49,17 @@ def modify_person():
     data = request.json
     modified_person = personController.modify_person(data)
     if (modified_person == -3):
-        return make_response(
-            jsonify({"msg":"ERROR", "code":400,'error': Errors.error["-3"]}), 400
-        ) 
+        return make_response_error(Errors.error["-3"], 404)
+    elif modified_person == -8:
+        return make_response_error(Errors.error["-8"], 400)
     else:
-        return make_response(
-            jsonify({"msg":"OK", "code":200, "data": {"person_saved":"saved data"}}),200
-        )
+        return make_response_ok({"success": Success.success["1"]})
+    
     
 @api_person.route('/deactivate_person/<external_id>', methods=['GET'])
 def deactivate_person(external_id):
     success = personController.deactivate_account(external_id)
     if success:
-        return make_response(
-            jsonify({"msg":"OK", "code":200, "data": {"account":"Deactivated account"}}),200
-        )
+        return make_response_ok({"success": Success.success["3"]})
     else:
-        return make_response(
-            jsonify({"msg":"ERROR", "code":400,'error': 'The person does not exist'}), 404
-        ) 
-
-@api_person.route('/person/search/<atributte>')
-def search_by_ident(atributte):
-    result = personController.search_person(atributte)
-    if result == -3:
         return make_response_error(Errors.error["-3"], 404)
-    else:
-        return make_response_ok({"success": result.serialize })
