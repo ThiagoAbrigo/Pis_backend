@@ -76,6 +76,3 @@ def search_by_ident(atributte):
         return make_response_error(Errors.error["-3"], 404)
     else:
         return make_response_ok({"success": result.serialize })
-        #return make_response(
-            #jsonify({"msg":"OK", "code":200, "data": result.serialize }),200
-        #)

@@ -124,10 +124,10 @@ class PersonController:
             return False
 
     def search_person(self, atributte):
-        ident = Person.query.filter_by(identification = atributte).first()
+        identification = Person.query.filter_by(identification = atributte).first()
         name = Person.query.filter_by(name = atributte).first()
-        if ident:
-            return ident
+        if identification:
+            return identification
         else: 
             if name:
                 return name
