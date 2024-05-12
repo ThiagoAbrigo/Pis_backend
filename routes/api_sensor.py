@@ -21,8 +21,6 @@ def createSensor():
         return make_response_error(Errors.error["-10"], 400)
     if result == -21:
         return make_response_error(Errors.error["-21"], 400)
-    if result == -22:
-        return make_response_error(Errors.error["-22"], 400)
     elif result == 2:
         return make_response_ok({"success": Success.success["2"]})
     elif result == -9:

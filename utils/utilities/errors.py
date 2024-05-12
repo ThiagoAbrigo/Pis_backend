@@ -12,7 +12,6 @@ class Errors:
         "-10": "Incorrect IP address",
         "-11": "invalid Email",
         "-12": "invalid phone",
-        "-20": "No sensors found",
-        "-21": "The latitude must be between -90 and 90.",
-        "-22": "The longitude should be between -180 and 180"
+        "-20": "Sensor not found",
+        "-21": "Coordinates are incorrect",
     }

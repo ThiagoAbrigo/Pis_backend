@@ -5,6 +5,14 @@ import re
 class SensorController:
     validate_ip = re.compile(r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$')
     
+    def validate_latitude_longitude(self, latitude, longitude):
+        latitude = float(latitude)
+        longitude = float(longitude)
+        if -90 <= latitude <= 90 and -180 <= longitude <= 180:
+            return True
+        else:
+            return -21
+        
     def listSensor(self):
         return Sensor.query.all()
 
