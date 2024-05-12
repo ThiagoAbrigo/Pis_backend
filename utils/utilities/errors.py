@@ -1,6 +1,6 @@
 class Errors:
     error = {
-        "-1": "Role not found",
+        "-1": "role not found",
         "-2": "email repeated",
         "-3": "person not found",
         "-4": "error in the transaction",
@@ -8,6 +8,8 @@ class Errors:
         "-6": "account does not exist",
         "-7": "token invalid",
         "-8": "invalid ID",
-        "-9": "Error saving sensor",
-        "-10": "Incorrect IP address",
+        "-9": "error saving sensor",
+        "-10": "incorrect IP address",
+        "-11": "invalid Email",
+        "-12": "invalid phone"
     }

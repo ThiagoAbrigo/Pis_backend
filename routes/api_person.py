@@ -29,7 +29,7 @@ def createPerson():
     data = request.json
     result = personController.save_person(data)
     if result == -2:
-        return make_response_error({"success": Errors.error["-2"]})
+        return make_response_error(Errors.error["-2"],400)
     elif result == 1:
         return make_response_ok({"success": Success.success["1"]})
     elif result == -1:
@@ -38,6 +38,10 @@ def createPerson():
         return make_response_error(Errors.error["-4"], 500)
     elif result == -8:
         return make_response_error(Errors.error["-8"], 400)
+    elif result == -11:
+        return make_response_error(Errors.error["-11"],400)
+    elif result == -12:
+        return make_response_error(Errors.error["-12"], 400)
 
 @api_person.route('/modify_person', methods=['POST'])
 @expects_json(schema_person)
