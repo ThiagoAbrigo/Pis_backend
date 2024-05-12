@@ -110,4 +110,4 @@ class PersonController:
             if name:
                 return name
             else:
-                return None
+                return -3
