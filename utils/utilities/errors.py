@@ -1,7 +1,7 @@
 class Errors:
     error = {
-        "-1": "Role not found",
-        "-2": "email repeat",
+        "-1": "role not found",
+        "-2": "email repeated",
         "-3": "person not found",
         "-4": "error in the transaction",
         "-5": "token not found",
@@ -10,7 +10,8 @@ class Errors:
         "-8": "invalid ID",
         "-9": "Error saving sensor",
         "-10": "Incorrect IP address",
-        "-11": "Sensor not found",
+        "-11": "invalid Email",
+        "-12": "invalid phone",
         "-20": "No sensors found",
         "-21": "The latitude must be between -90 and 90.",
         "-22": "The longitude should be between -180 and 180"
