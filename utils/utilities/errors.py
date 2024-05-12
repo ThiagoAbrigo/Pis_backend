@@ -10,4 +10,7 @@ class Errors:
         "-8": "invalid ID",
         "-9": "Error saving sensor",
         "-10": "Incorrect IP address",
+        "-20": "No sensors found",
+        "-21": "The latitude must be between -90 and 90.",
+        "-22": "The longitude should be between -180 and 180"
     }
