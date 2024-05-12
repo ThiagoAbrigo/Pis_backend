@@ -4,6 +4,7 @@ from models.account import Account
 from app import db
 import bcrypt
 import uuid
+import re
 
 
 class PersonController:
@@ -11,6 +12,7 @@ class PersonController:
         return Person.query.all()
     
     def validate_ID(self, identification):
+        
         if len(identification) != 10:
             return False
 
@@ -27,6 +29,22 @@ class PersonController:
         else:
             return False
 
+    def validate_Email(self, email):
+        format = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        
+        if re.match(format, email):
+            return True
+        else:
+            return False
+    
+    def validate_Phone(self, phone):
+        format = r'^[0-9]{10}$'
+
+        if re.match(format, phone):
+            return True
+        else:
+            return False
+        
     def save_person(self, data):
         repeated_account = Account.query.filter_by(email=data['email']).first()
         if repeated_account:
@@ -37,7 +55,11 @@ class PersonController:
         if rol:
             if not self.validate_ID(data['identification']):
                 return -8
-
+            elif not self.validate_Email(data['email']):
+                return -11
+            elif not self.validate_Phone(data['phone']):
+                return -12
+            
             person.name = data["name"]
             person.lastname = data["lastname"]
             person.phone = data["phone"]
@@ -103,3 +125,14 @@ class PersonController:
             return True
         else:
             return False
+
+    def search_person(self, atributte):
+        identification = Person.query.filter_by(identification = atributte).first()
+        name = Person.query.filter_by(name = atributte).first()
+        if identification:
+            return identification
+        else: 
+            if name:
+                return name
+            else:
+                return -3
