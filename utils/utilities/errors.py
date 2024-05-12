@@ -1,7 +1,7 @@
 class Errors:
     error = {
         "-1": "Role not found",
-        "-2": "email repeat",
+        "-2": "email repeated",
         "-3": "person not found",
         "-4": "error in the transaction",
         "-5": "token not found",

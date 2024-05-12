@@ -64,3 +64,15 @@ def deactivate_person(external_id):
         return make_response(
             jsonify({"msg":"ERROR", "code":400,'error': 'The person does not exist'}), 404
         ) 
+
+@api_person.route('/person/search/<external>')
+def search_by_ident(external):
+    search = personController.search_person(external)
+    if search is None:
+        return make_response(
+            jsonify({"msg":"ERROR", "code":400,'error': Errors.error["-3"]}), 400
+        )
+    else:
+        return make_response(
+            jsonify({"msg":"OK", "code":200, "data": search.serialize }),200
+        )

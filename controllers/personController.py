@@ -100,3 +100,14 @@ class PersonController:
             return True
         else:
             return False
+
+    def search_person(self, atributte):
+        ident = Person.query.filter_by(identification = atributte).first()
+        name = Person.query.filter_by(name = atributte).first()
+        if ident:
+            return ident
+        else: 
+            if name:
+                return name
+            else:
+                return None
