@@ -10,9 +10,8 @@ class Errors:
         "-8": "invalid ID",
         "-9": "Error saving sensor",
         "-10": "Incorrect IP address",
-        "-11": "Sensor not found",
-        "-9": "error saving sensor",
-        "-10": "incorrect IP address",
         "-11": "invalid Email",
-        "-12": "invalid phone"
+        "-12": "invalid phone",
+        "-20": "Sensor not found",
+        "-21": "Coordinates are incorrect",
     }
