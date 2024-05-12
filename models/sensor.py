@@ -19,12 +19,12 @@ class Sensor(db.Model):
     dato_recolectado = db.relationship('SensorData', backref='sensor', lazy=True)
 
 
-    # @property
-    # def serialize(self):
-    #     return {
-    #         "name": self.name,
-    #         "status": self.status,
-    #         "latitude": self.latitude,
-    #         "longitude": self.longitude,
-    #         "external_id": self.external_id,
-    #     }
+    @property     
+    def serialize(self):
+            return {
+                "name": self.name,
+                "status": self.status,
+                "latitude": self.latitude,
+                "longitude": self.longitude,
+                "external_id": self.external_id,
+            }

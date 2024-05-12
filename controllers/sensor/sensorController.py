@@ -5,6 +5,9 @@ import re
 class SensorController:
     validate_ip = re.compile(r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$')
     
+    def listSensor(self):
+        return Sensor.query.all()
+
     def save_sensor(self, data):
         if self.validate_ip.match(data['ip']):
             try:               
@@ -23,3 +26,11 @@ class SensorController:
                 return -9
         else:
             return -10
+        
+    def search_sensor(self, name):
+        name = Sensor.query.filter_by(name = name).first()
+        if name:
+            return name
+        else:
+            return -3
+    
