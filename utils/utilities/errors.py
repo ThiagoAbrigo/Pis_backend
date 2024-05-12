@@ -10,4 +10,5 @@ class Errors:
         "-8": "invalid ID",
         "-9": "Error saving sensor",
         "-10": "Incorrect IP address",
+        "-11": "Sensor not found",
     }
