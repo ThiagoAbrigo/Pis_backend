@@ -16,15 +16,25 @@ schema_person = {
             "type": "string",
             "pattern": "^[0-9]{10}$"
         },
-        "ci": {
+        "identification": {
             "type": "string",
             "pattern": "^[0-9]{10}$"
         },
         "email": {"type": "string"},
-        "password": {
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$",
-        },
+        "password": {"type": "string"},
     },
-    "required": ["name", "lastname", "phone", "ci", "email", "password"],
+    "required": ["name", "lastname", "phone", "identification", "email", "password"],
+}
+
+schema_sensor = {
+    'type': 'object',
+    'properties': {
+        'name': {'type': 'string'},
+        'status': {'type': 'string'},
+        'longitude': {'type': 'string'},
+        'latitude': {'type': 'string'},
+        'type_sensor': {'type': 'string'}
+
+    },
+    'required': ['name', 'status', 'longitude', 'latitude', , "type_sensor"]
 }
