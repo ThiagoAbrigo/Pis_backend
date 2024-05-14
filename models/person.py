@@ -22,4 +22,3 @@ class Person(db.Model):
             "name": self.name,
             "lastname": self.lastname,
         }
-

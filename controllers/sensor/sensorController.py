@@ -7,8 +7,10 @@ from models.account import Account
 from flask import Flask, request, jsonify, make_response, current_app
 import jwt
 class SensorController:
+
     validate_ip = re.compile(r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$')
-    
+
+
     def validate_latitude_longitude(self, latitude, longitude):
         latitude = float(latitude)
         longitude = float(longitude)
@@ -20,15 +22,7 @@ class SensorController:
     def listSensor(self):
         return Sensor.query.all()
 
-    def save_sensor(self, data, user_id):
-        user = Person.query.get(user_id)
-        if user is None:
-            return -13
-        
-        user_role = user.rol_id
-        if user_role != 1:
-            return -13
-                    
+    def save_sensor(self, data):
         if not self.validate_ip.match(data['ip']):
             return -10 
         
@@ -38,6 +32,32 @@ class SensorController:
         if validation_result != True:
             return validation_result
         
+        try:
+            sensor = Sensor(
+                name=data["name"],
+                latitude=float(latitude),
+                longitude=float(longitude),
+                ip=data["ip"],
+                type_sensor=data["type_sensor"],
+                external_id=uuid.uuid4()
+            )
+            db.session.add(sensor)
+            db.session.commit()
+            return 2 
+        except:
+            db.session.rollback()
+            return -9
+
+    def modify_sensor(self, data):
+        if not self.validate_ip.match(data['ip']):
+            return -10 
+        
+        latitude = data["latitude"]
+        longitude = data["longitude"]
+        validation_result = self.validate_latitude_longitude(latitude, longitude)
+        if validation_result != True:
+            return validation_result
+
         try:
             sensor = Sensor(
                 name=data["name"],
@@ -70,4 +90,4 @@ class SensorController:
             return name
         else:
             return -3
-    
+

@@ -19,3 +19,17 @@ schema_person = {
     },
     "required": ["name", "lastname", "phone", "identification", "email", "password"],
 }
+
+schema_sensor = {
+    'type': 'object',
+    'properties': {
+        'name': {'type': 'string'},
+        'status': {'type': 'string'},
+        'longitude': {'type': 'string'},
+        'latitude': {'type': 'string'},
+        "pi" : {'type':'string'},
+        'type_sensor': {'type': 'string'}
+
+    },
+    'required': ['name', 'status', 'longitude', 'latitude', "pi", "type_sensor"]
+}
