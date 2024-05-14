@@ -2,7 +2,7 @@ from models.sensor import Sensor
 import uuid
 from app import db
 import re
-
+from models.person import Person
 class SensorController:
 
     validate_ip = re.compile(r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$')
@@ -19,7 +19,14 @@ class SensorController:
     def listSensor(self):
         return Sensor.query.all()
 
-    def save_sensor(self, data):
+    def save_sensor(self, data, user_id):
+        person = Person.query.get(user_id)
+        
+        if person is None:
+            return -13
+        rol_id = person.rol_id
+        if rol_id != 1:
+            return -13
         if not self.validate_ip.match(data['ip']):
             return -10 
         
@@ -36,12 +43,14 @@ class SensorController:
                 longitude=float(longitude),
                 ip=data["ip"],
                 type_sensor=data["type_sensor"],
+                id_person=user_id, 
                 external_id=uuid.uuid4()
             )
             db.session.add(sensor)
             db.session.commit()
             return 2 
-        except:
+        except Exception as e:
+            print("Error al guardar el sensor:", e)
             db.session.rollback()
             return -9
 
@@ -70,7 +79,7 @@ class SensorController:
         except:
             db.session.rollback()
             return -9
-
+    
     def deactivate_sensor(self, external_id):
         sensor = Sensor.query.filter_by(external_id=external_id).first()
         if sensor:
