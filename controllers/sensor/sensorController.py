@@ -3,10 +3,6 @@ import uuid
 from app import db
 import re
 from models.person import Person
-from models.account import Account
-from models.rol import Rol
-from flask import Flask, request, jsonify, make_response, current_app
-import jwt
 class SensorController:
 
     validate_ip = re.compile(r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$')
@@ -29,7 +25,6 @@ class SensorController:
         if person is None:
             return -13
         rol_id = person.rol_id
-        print ("--------", rol_id)
         if rol_id != 1:
             return -13
         if not self.validate_ip.match(data['ip']):
