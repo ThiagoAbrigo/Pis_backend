@@ -4,6 +4,7 @@ from app import db
 import re
 from models.person import Person
 from models.account import Account
+from models.rol import Rol
 from flask import Flask, request, jsonify, make_response, current_app
 import jwt
 class SensorController:
@@ -22,7 +23,15 @@ class SensorController:
     def listSensor(self):
         return Sensor.query.all()
 
-    def save_sensor(self, data):
+    def save_sensor(self, data, user_id):
+        person = Person.query.get(user_id)
+        
+        if person is None:
+            return -13
+        rol_id = person.rol_id
+        print ("--------", rol_id)
+        if rol_id != 1:
+            return -13
         if not self.validate_ip.match(data['ip']):
             return -10 
         
@@ -39,12 +48,14 @@ class SensorController:
                 longitude=float(longitude),
                 ip=data["ip"],
                 type_sensor=data["type_sensor"],
+                id_person=user_id, 
                 external_id=uuid.uuid4()
             )
             db.session.add(sensor)
             db.session.commit()
             return 2 
-        except:
+        except Exception as e:
+            print("Error al guardar el sensor:", e)
             db.session.rollback()
             return -9
 

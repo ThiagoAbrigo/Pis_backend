@@ -15,7 +15,7 @@ def listPerson():
         return make_response_ok({"succes": [i.serialize for i in sensorController.listSensor()]})
 
 @api_sensor.route("/sensor/save", methods=["POST"])
-@token_requeird
+# @token_requeird
 def createSensor():
     data = request.json
     user_id = data.get('user_id')
