@@ -5,7 +5,6 @@ from functools import wraps
 from models.account import Account
 from utils.utilities.errors import Errors
 
-
 def token_requeird(f):
     @wraps(f)
     def decored(*args, **kwargs):

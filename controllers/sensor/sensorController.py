@@ -2,6 +2,10 @@ from models.sensor import Sensor
 import uuid
 from app import db
 import re
+from models.person import Person
+from models.account import Account
+from flask import Flask, request, jsonify, make_response, current_app
+import jwt
 class SensorController:
     validate_ip = re.compile(r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$')
     
@@ -16,7 +20,15 @@ class SensorController:
     def listSensor(self):
         return Sensor.query.all()
 
-    def save_sensor(self, data):
+    def save_sensor(self, data, user_id):
+        user = Person.query.get(user_id)
+        if user is None:
+            return -13
+        
+        user_role = user.rol_id
+        if user_role != 1:
+            return -13
+                    
         if not self.validate_ip.match(data['ip']):
             return -10 
         
@@ -41,7 +53,7 @@ class SensorController:
         except:
             db.session.rollback()
             return -9
-
+    
     def deactivate_sensor(self, external_id):
         sensor = Sensor.query.filter_by(external_id=external_id).first()
         if sensor:

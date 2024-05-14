@@ -10,7 +10,7 @@ class Sensor(db.Model):
     longitude = db.Column(db.Double())
     ip = db.Column(db.String(20))
     type_sensor = db.Column(EnumSQL(TypeSensor))
-    #person_id = db.Column(db.Integer, db.ForeignKey("person.id"), nullable=False, unique=True)
+    id_person = db.Column(db.Integer, db.ForeignKey("person.id"))
     external_id = db.Column(db.VARCHAR(60), default=str(uuid.uuid4()))
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     updated_at = db.Column(

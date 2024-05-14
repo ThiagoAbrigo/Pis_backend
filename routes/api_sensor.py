@@ -14,12 +14,17 @@ def listPerson():
         return make_response_ok({"succes": [i.serialize for i in sensorController.listSensor()]})
 
 @api_sensor.route("/sensor/save", methods=["POST"])
+@token_requeird
 def createSensor():
     data = request.json
-    result = sensorController.save_sensor(data)
-    if result == -10:
+    user_id = data.get('user_id')
+    result = sensorController.save_sensor(data, user_id)
+    
+    if result == -13:
+        return make_response_error(Errors.error["-13"], 400)
+    elif result == -10:
         return make_response_error(Errors.error["-10"], 400)
-    if result == -21:
+    elif result == -21:
         return make_response_error(Errors.error["-21"], 400)
     elif result == 2:
         return make_response_ok({"success": Success.success["2"]})
