@@ -18,4 +18,3 @@ class SensorData(db.Model):
             "external_id": self.external_id,
             "id_sensor": self.id_sensor
         }
-

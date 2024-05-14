@@ -1,4 +1,5 @@
 from controllers.authenticateController import token_requeird
+from utils.utilities.schemas import schema_sensor
 from flask import Blueprint, request
 from controllers.sensor.sensorController import SensorController
 from controllers.sensor.sensordataController import SensorDataController
@@ -17,6 +18,7 @@ def listPerson():
 def createSensor():
     data = request.json
     result = sensorController.save_sensor(data)
+
     if result == -10:
         return make_response_error(Errors.error["-10"], 400)
     if result == -21:
@@ -24,7 +26,21 @@ def createSensor():
     elif result == 2:
         return make_response_ok({"success": Success.success["2"]})
     elif result == -9:
-        return make_response_error(Errors.error["-9"], 400)    
+        return make_response_error(Errors.error["-9"], 400)   
+
+@api_sensor.route('/modify_sensor', methods=['POST'])
+def modify_sensor():
+    data = request.json
+    result = sensorController.modify_sensor(data)
+     
+    if result == -10:
+        return make_response_error(Errors.error["-10"], 400)
+    if result == -21:
+        return make_response_error(Errors.error["-21"], 400)
+    elif result == -9:
+        return make_response_error(Errors.error["-9"], 400)
+    else:
+        return make_response_ok({"success": Success.success["4"]})   
 
 @api_sensor.route("/sensor/list_data", methods=["GET"])
 def listSensorData():

@@ -2,6 +2,7 @@ from app import db
 import uuid
 from models.type_sensor import TypeSensor
 from sqlalchemy import Enum as EnumSQL
+
 class Sensor(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(100))

@@ -15,3 +15,4 @@ class Errors:
         "-20": "Sensor not found",
         "-21": "Coordinates are incorrect",
     }
+
