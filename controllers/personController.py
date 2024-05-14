@@ -4,12 +4,14 @@ from models.account import Account
 from app import db
 import bcrypt
 import uuid
+import re
 
 class PersonController:
     def listPerson(self):
         return Person.query.all()
     
     def validate_ID(self, identification):
+<<<<<<< HEAD
         if len(identification) != 10:
             return False
 
@@ -25,7 +27,41 @@ class PersonController:
             return True
         else:
             return False
+=======
+        
+        if len(identification) != 10:
+            return False
+>>>>>>> master
 
+        coeficientes = [2, 1, 2, 1, 2, 1, 2, 1, 2]
+        suma = 0
+        for i in range(9):
+            digito = int(identification[i]) * coeficientes[i]
+            suma += digito if digito < 10 else digito - 9
+
+        total = suma % 10 if suma % 10 == 0 else 10 - suma % 10
+
+        if total == int(identification[9]):
+            return True
+        else:
+            return False
+
+    def validate_Email(self, email):
+        format = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        
+        if re.match(format, email):
+            return True
+        else:
+            return False
+    
+    def validate_Phone(self, phone):
+        format = r'^[0-9]{10}$'
+
+        if re.match(format, phone):
+            return True
+        else:
+            return False
+        
     def save_person(self, data):
         repeated_account = Account.query.filter_by(email=data['email']).first()
         if repeated_account:
@@ -36,7 +72,15 @@ class PersonController:
         if rol:
             if not self.validate_ID(data['identification']):
                 return -8
+<<<<<<< HEAD
 
+=======
+            elif not self.validate_Email(data['email']):
+                return -11
+            elif not self.validate_Phone(data['phone']):
+                return -12
+            
+>>>>>>> master
             person.name = data["name"]
             person.lastname = data["lastname"]
             person.phone = data["phone"]
@@ -67,14 +111,17 @@ class PersonController:
     def modify_person(self, data):
         person = Person.query.filter_by(external_id=data["external_id"]).first() 
         if person:
+            if not self.validate_ID(data['identification']):
+                return -8
+            
             if "name" in data:
                 person.name = data["name"]
             if "lastname" in data:
                 person.lastname = data["lastname"]
             if "phone" in data:
                 person.phone = data["phone"]
-            if "ci" in data:
-                person.ci = data["ci"]
+            if "identification" in data:
+                person.identification = data["identification"]
                 
             new_external_id = str(uuid.uuid4())
             person.external_id = new_external_id
@@ -83,7 +130,7 @@ class PersonController:
                 name=person.name,
                 lastname=person.lastname,
                 phone=person.phone,
-                ci=person.ci,
+                identification=person.identification,
                 external_id=new_external_id
             )
             return modified_person
@@ -98,4 +145,19 @@ class PersonController:
             db.session.commit()
             return True
         else:
+<<<<<<< HEAD
             return False
+=======
+            return False
+
+    def search_person(self, atributte):
+        identification = Person.query.filter_by(identification = atributte).first()
+        name = Person.query.filter_by(name = atributte).first()
+        if identification:
+            return identification
+        else: 
+            if name:
+                return name
+            else:
+                return -3
+>>>>>>> master
