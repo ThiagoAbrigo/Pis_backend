@@ -29,18 +29,18 @@ def createSensor():
         return make_response_error(Errors.error["-9"], 400)   
 
 @api_sensor.route('/modify_sensor', methods=['POST'])
-@expects_json(schema_sensor)
 def modify_sensor():
     data = request.json
-    modified_sensor = sensorController.modify_sensor(data)
-    if (modified_sensor == -8):
-        return make_response(
-            jsonify({"msg":"ERROR", "code":400,'error': Errors.error["-3"]}), 400
-        ) 
+    result = sensorController.modify_sensor(data)
+     
+    if result == -10:
+        return make_response_error(Errors.error["-10"], 400)
+    if result == -21:
+        return make_response_error(Errors.error["-21"], 400)
+    elif result == -9:
+        return make_response_error(Errors.error["-9"], 400)
     else:
-        return make_response(
-            jsonify({"msg":"OK", "code":200, "data": {"sensor_saved":"saved data"}}),200
-        ) 
+        return make_response_ok({"success": Success.success["4"]})   
 
 @api_sensor.route("/sensor/list_data", methods=["GET"])
 def listSensorData():

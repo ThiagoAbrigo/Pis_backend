@@ -27,8 +27,9 @@ schema_sensor = {
         'status': {'type': 'string'},
         'longitude': {'type': 'string'},
         'latitude': {'type': 'string'},
+        "pi" : {'type':'string'},
         'type_sensor': {'type': 'string'}
 
     },
-    'required': ['name', 'status', 'longitude', 'latitude', , "type_sensor"]
+    'required': ['name', 'status', 'longitude', 'latitude', "pi", "type_sensor"]
 }

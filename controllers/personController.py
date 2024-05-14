@@ -6,32 +6,15 @@ import bcrypt
 import uuid
 import re
 
+
 class PersonController:
     def listPerson(self):
         return Person.query.all()
     
     def validate_ID(self, identification):
-<<<<<<< HEAD
-        if len(identification) != 10:
-            return False
-
-        coeficientes = [2, 1, 2, 1, 2, 1, 2, 1, 2]
-        suma = 0
-        for i in range(9):
-            digito = int(identification[i]) * coeficientes[i]
-            suma += digito if digito < 10 else digito - 9
-
-        total = suma % 10 if suma % 10 == 0 else 10 - suma % 10
-
-        if total == int(identification[9]):
-            return True
-        else:
-            return False
-=======
         
         if len(identification) != 10:
             return False
->>>>>>> master
 
         coeficientes = [2, 1, 2, 1, 2, 1, 2, 1, 2]
         suma = 0
@@ -72,15 +55,11 @@ class PersonController:
         if rol:
             if not self.validate_ID(data['identification']):
                 return -8
-<<<<<<< HEAD
-
-=======
             elif not self.validate_Email(data['email']):
                 return -11
             elif not self.validate_Phone(data['phone']):
                 return -12
             
->>>>>>> master
             person.name = data["name"]
             person.lastname = data["lastname"]
             person.phone = data["phone"]
@@ -145,9 +124,6 @@ class PersonController:
             db.session.commit()
             return True
         else:
-<<<<<<< HEAD
-            return False
-=======
             return False
 
     def search_person(self, atributte):
@@ -160,4 +136,3 @@ class PersonController:
                 return name
             else:
                 return -3
->>>>>>> master
