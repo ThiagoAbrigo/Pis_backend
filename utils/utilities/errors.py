@@ -12,7 +12,6 @@ class Errors:
         "-10": "Incorrect IP address",
         "-11": "invalid Email",
         "-12": "invalid phone",
-        "-13": "Permission denied",
         "-14": "Credencial incorrects",
         "-20": "Sensor not found",
         "-21": "Coordinates are incorrect",

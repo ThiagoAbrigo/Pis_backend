@@ -18,7 +18,7 @@ def create_app():
         from routes.api_person import api_person
         from routes.api_sessions import api_session
         from routes.api_sensor import api_sensor
-        
+        from models.person_sensor import Person_Sensor
         app.register_blueprint(api_person)
         app.register_blueprint(api_session)
         app.register_blueprint(api_sensor)

@@ -18,12 +18,9 @@ def listPerson():
 # @token_requeird
 def createSensor():
     data = request.json
-    user_id = data.get('user_id')
-    result = sensorController.save_sensor(data, user_id)
+    result = sensorController.save_sensor(data)
     
-    if result == -13:
-        return make_response_error(Errors.error["-13"], 400)
-    elif result == -10:
+    if result == -10:
         return make_response_error(Errors.error["-10"], 400)
     elif result == -21:
         return make_response_error(Errors.error["-21"], 400)
