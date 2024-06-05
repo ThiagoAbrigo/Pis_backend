@@ -37,5 +37,7 @@ class Sensor(db.Model):
                 "status": self.status,
                 "latitude": self.latitude,
                 "longitude": self.longitude,
+                "ip": self.ip,
+                "type_sensor": self.type_sensor.serialize if self.type_sensor else None,
                 "external_id": self.external_id,
             }
