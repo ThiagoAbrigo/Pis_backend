@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, make_response, request
 from controllers.sessions.loginController import LoginController
 from utils.utilities.errors import Errors
 from flask_expects_json import expects_json
+from controllers.authenticateController import token_requeird
 from utils.utilities.schemas import schema_login
 
 api_session = Blueprint("api_session", __name__)
