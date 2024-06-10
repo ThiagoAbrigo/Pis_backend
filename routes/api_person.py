@@ -23,6 +23,20 @@ def listPerson():
         200,
     )
 
+@api_person.route("/person/account", methods=["GET"])
+def listPersonWithAccount():
+    return make_response(
+        jsonify(
+            {
+                "msg": "OK",
+                "code": 200,
+                "data": personController.listPersonWithAccount(),
+            }
+        ),
+        200,
+    )
+
+
 @api_person.route("/person/save", methods=["POST"])
 @expects_json(schema_person)
 def createPerson():

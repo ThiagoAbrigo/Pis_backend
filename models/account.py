@@ -2,6 +2,9 @@ from app import db
 import uuid
 
 class Account(db.Model):
+    
+    __tablename__ = 'account'
+    
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True)
     status = db.Column(db.String(10), default="activo")
