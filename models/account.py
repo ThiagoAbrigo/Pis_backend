@@ -2,6 +2,9 @@ from app import db
 import uuid
 
 class Account(db.Model):
+    
+    __tablename__ = 'account'
+    
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True)
     status = db.Column(db.String(10), default="activo")
@@ -19,6 +22,6 @@ class Account(db.Model):
     def serialize(self):
         return {
             "email": self.email,
-            "status": 1 if self.status else 0,
+            "status": self.status,
             "external_id": self.external_id,
         }

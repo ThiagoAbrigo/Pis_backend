@@ -11,6 +11,19 @@ class PersonController:
     def listPerson(self):
         return Person.query.all()
     
+    def listPersonWithAccount(self):
+        persons = Person.query.all()
+        person_list = []
+        for person in persons:
+            person_data = person.serialize
+            account_data = person.account.serialize
+            person_data.update({
+                "email": account_data["email"],
+                "status": account_data["status"],
+                })
+            person_list.append(person_data)
+            return person_list
+    
     def validate_ID(self, identification):
         
         if len(identification) != 10:
@@ -126,9 +139,9 @@ class PersonController:
         else:
             return False
 
-    def search_person(self, atributte):
-        identification = Person.query.filter_by(identification = atributte).first()
-        name = Person.query.filter_by(name = atributte).first()
+    def search_person(self, atribute):
+        identification = Person.query.filter_by(identification = atribute).first()
+        name = Person.query.filter_by(name = atribute).first()
         if identification:
             return identification
         else: 
