@@ -22,6 +22,6 @@ class Account(db.Model):
     def serialize(self):
         return {
             "email": self.email,
-            "status": 1 if self.status else 0,
+            "status": self.status,
             "external_id": self.external_id,
         }

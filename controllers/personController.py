@@ -10,7 +10,7 @@ import re
 class PersonController:
     def listPerson(self):
         return Person.query.all()
-
+    
     def listPersonWithAccount(self):
         persons = Person.query.all()
         person_list = []
@@ -22,7 +22,7 @@ class PersonController:
                 "status": account_data["status"],
                 })
             person_list.append(person_data)
-        return person_list
+            return person_list
     
     def validate_ID(self, identification):
         

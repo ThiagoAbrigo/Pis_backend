@@ -11,30 +11,12 @@ personController = PersonController()
 
 
 @api_person.route("/person", methods=["GET"])
-def listPerson():
-    return make_response(
-        jsonify(
-            {
-                "msg": "OK",
-                "code": 200,
-                "data": ([i.serialize for i in personController.listPerson()]),
-            }
-        ),
-        200,
-    )
+def list():
+    return make_response_ok([i.serialize for i in personController.listPerson()])
 
 @api_person.route("/person/account", methods=["GET"])
 def listPersonWithAccount():
-    return make_response(
-        jsonify(
-            {
-                "msg": "OK",
-                "code": 200,
-                "data": personController.listPersonWithAccount(),
-            }
-        ),
-        200,
-    )
+    return make_response_ok(personController.listPersonWithAccount())
 
 
 @api_person.route("/person/save", methods=["POST"])

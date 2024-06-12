@@ -17,7 +17,7 @@ class Person(db.Model):
         db.DateTime, server_default=db.func.now(), server_onupdate=db.func.now()
     )
     account = db.relationship("Account", backref="person", uselist=False, lazy=True)
-
+    rol = db.relationship("Rol", backref=db.backref("people", lazy=True))
     @property
     def serialize(self):
         return {
@@ -25,5 +25,6 @@ class Person(db.Model):
             "lastname": self.lastname,
             "phone": self.phone,
             "identification": self.identification,
-            "rol": self.rol_id,
+            "rol": self.rol.rol if self.rol else None
         }
+        
