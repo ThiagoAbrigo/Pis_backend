@@ -11,8 +11,9 @@ api_sensor = Blueprint("api_sensor", __name__)
 sensorController = SensorController()
 sensorDataController = SensorDataController()
 @api_sensor.route("/list_sensor", methods=["GET"])
+@token_requeird
 def listPerson():
-        return make_response_ok({"succes": [i.serialize for i in sensorController.listSensor()]})
+        return make_response_ok([i.serialize for i in sensorController.listSensor()])
 
 @api_sensor.route("/sensor/save", methods=["POST"])
 # @token_requeird

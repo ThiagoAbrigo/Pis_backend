@@ -59,3 +59,17 @@ def deactivate_person(external_id):
         return make_response_ok({"success": Success.success["3"]})
     else:
         return make_response_error(Errors.error["-3"], 404)
+    
+@api_person.route('/roles', methods=['GET'])
+def list_roles():
+    return make_response(
+        jsonify(
+            {
+                "msg": "OK",
+                "code": 200,
+                "data": personController.all_rol(),
+            }
+        ),
+        200,
+    )
+    

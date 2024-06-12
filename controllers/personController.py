@@ -149,3 +149,8 @@ class PersonController:
                 return name
             else:
                 return -3
+            
+    def all_rol(self):
+        roles = Rol.query.all()
+        role_names = [role.rol for role in roles]
+        return role_names

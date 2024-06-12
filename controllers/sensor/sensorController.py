@@ -42,7 +42,6 @@ class SensorController:
             db.session.commit()
             return 2 
         except Exception as e:
-            print("Error al guardar el sensor:", e)
             db.session.rollback()
             return -9
 
