@@ -26,7 +26,7 @@ class LoginController:
                 person = self.getPerson(accountA.person_id)
                 user_info = {
                     "token": token,
-                    "user": person.lastname + " " + person.name,
+                    "user": person.name,
                     "role": person.rol_id
                 }
                 return user_info
