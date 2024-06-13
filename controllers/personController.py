@@ -2,7 +2,6 @@ from models.person import Person
 from models.rol import Rol
 from models.account import Account
 from app import db
-import bcrypt
 import uuid
 import re
 
@@ -11,18 +10,23 @@ class PersonController:
     def listPerson(self):
         return Person.query.all()
     
-    def listPersonWithAccount(self):
+    def listPersonAccount(self):
         persons = Person.query.all()
-        person_list = []
+        person_List = []
         for person in persons:
-            person_data = person.serialize
-            account_data = person.account.serialize
-            person_data.update({
-                "email": account_data["email"],
-                "status": account_data["status"],
-                })
-            person_list.append(person_data)
-            return person_list
+            account = person.account
+            rol = person.rol
+            person_data = {
+                "name": person.name,
+                "lastname": person.lastname,
+                "phone": person.phone,
+                "identification": person.identification,
+                "email": account.email if account else None,
+                "status": account.status if account else None,
+                "rol": rol.rol if rol else None
+            }
+            person_List.append(person_data)
+        return person_List
     
     def validate_ID(self, identification):
         
