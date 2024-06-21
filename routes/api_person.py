@@ -32,7 +32,9 @@ def createPerson():
     data = request.json
     result = personController.save_person(data)
     if result == -2:
-        return make_response_error(Errors.error["-2"],400)
+        return make_response(jsonify({"error": "El correo electrónico ya está registrado"}), 400)
+    if result == -9:
+        return make_response(jsonify({"error": "Cédula ya registrada"}), 400)
     elif result == 1:
         return make_response_ok({"success": Success.success["1"]})
     elif result == -1:
@@ -40,17 +42,18 @@ def createPerson():
     elif result == -4:
         return make_response_error(Errors.error["-4"], 500)
     elif result == -8:
-        return make_response_error(Errors.error["-8"], 400)
+        return make_response(jsonify({"error": "cédula inválida"}), 400)
     elif result == -11:
         return make_response_error(Errors.error["-11"],400)
     elif result == -12:
         return make_response_error(Errors.error["-12"], 400)
 
-@api_person.route('/modify_person', methods=['POST'])
-@expects_json(schema_person)
-def modify_person():
+@api_person.route('/modify_person/<external_id>', methods=['POST'])
+# @expects_json(schema_person)
+def modify_person(external_id):
     data = request.json
-    modified_person = personController.modify_person(data)
+    modified_person = personController.modify_person(external_id, data)
+    print(external_id)
     if (modified_person == -3):
         return make_response_error(Errors.error["-3"], 404)
     elif modified_person == -8:
@@ -63,7 +66,7 @@ def modify_person():
 def deactivate_person(external_id):
     success = personController.deactivate_account(external_id)
     if success:
-        return make_response_ok({"success": Success.success["3"]})
+        return make_response_ok(success)
     else:
         return make_response_error(Errors.error["-3"], 404)
     

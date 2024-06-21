@@ -15,5 +15,6 @@ class Rol(db.Model):
 def serialize(self):
     return{
         'rol': self.rol,
-        'status': self.status
+        'status': self.status,
+        "external_id": self.external_id
     }
