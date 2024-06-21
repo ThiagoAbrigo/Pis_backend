@@ -1,0 +1,5 @@
+Collecting bcrypt
+  Using cached bcrypt-4.1.3-cp39-abi3-manylinux_2_28_x86_64.whl.metadata (9.5 kB)
+Using cached bcrypt-4.1.3-cp39-abi3-manylinux_2_28_x86_64.whl (283 kB)
+Installing collected packages: bcrypt
+Successfully installed bcrypt-4.1.3
