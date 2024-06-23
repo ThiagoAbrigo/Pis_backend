@@ -176,6 +176,32 @@ class PersonController:
                 return name
             else:
                 return -3
+    
+    def search_person(self, attribute):
+        person = Person.query.filter_by(identification=attribute).first()
+        
+        if not person:
+            person = Person.query.filter_by(name=attribute).first()
+        if not person:
+            person = Person.query.filter_by(phone=attribute).first()
+        if person:
+            account = person.account
+            rol = person.rol
+            person_data = {
+                "external_id": person.external_id,
+                "name": person.name,
+                "lastname": person.lastname,
+                "phone": person.phone,
+                "identification": person.identification,
+                "email": account.email if account else None,
+                "status": account.status if account else None,
+                "rol": rol.rol if rol else None,
+            }
+            return person_data
+        else:
+            return -3
+
+    
 
     def all_rol(self):
         roles = Rol.query.all()

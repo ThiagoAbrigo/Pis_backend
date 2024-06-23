@@ -36,7 +36,7 @@ def createPerson():
     if result == -9:
         return make_response(jsonify({"error": "Cédula ya registrada"}), 400)
     elif result == 1:
-        return make_response_ok({"success": Success.success["1"]})
+        return make_response_ok({"success": "Person and account saved successfully"})
     elif result == -1:
         return make_response_error(Errors.error["-1"], 404)
     elif result == -4:
@@ -44,9 +44,13 @@ def createPerson():
     elif result == -8:
         return make_response(jsonify({"error": "cédula inválida"}), 400)
     elif result == -11:
-        return make_response_error(Errors.error["-11"],400)
+        return make_response_error(Errors.error["-11"], 400)
     elif result == -12:
         return make_response_error(Errors.error["-12"], 400)
+    else:
+        return make_response_error("Error desconocido", 500)
+
+
 
 @api_person.route('/modify_person/<external_id>', methods=['POST'])
 # @expects_json(schema_person)
@@ -82,4 +86,12 @@ def list_roles():
         ),
         200,
     )
+
+@api_person.route("/search/person/<attribute>", methods = ['GET'])
+def search_person(attribute):
     
+    result = personController.search_person(attribute)
+    if (result == -3):
+        return make_response_error(Errors.error["-3"], 404)
+    else: 
+        return result
