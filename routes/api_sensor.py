@@ -34,7 +34,7 @@ def createSensor():
 def modify_sensor():
     data = request.json
     result = sensorController.modify_sensor(data)
-     
+
     if result == -10:
         return make_response_error(Errors.error["-10"], 400)
     if result == -21:

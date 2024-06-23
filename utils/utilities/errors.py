@@ -15,5 +15,6 @@ class Errors:
         "-14": "Credencial incorrects",
         "-20": "Sensor not found",
         "-21": "Coordinates are incorrect",
+        "-22": "Account is inactive",
     }
 
