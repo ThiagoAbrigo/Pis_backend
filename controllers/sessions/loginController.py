@@ -31,8 +31,8 @@ class LoginController:
                     }
                     return user_info
                 else:
-                    return {"error": "Account is inactive."}, 403
+                    return {"error": "Su cuenta ha sido deshabilitada"}, 403 
             else:
-                -14
+                return {"error": "Sus credenciales son incorrectas"}, 401 
         else:
-            return -6
+            return {"error": "Sus credenciales son incorrectas"}, 404  
