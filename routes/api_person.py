@@ -27,26 +27,26 @@ def listPersonAccount():
     return make_response_ok(personController.listPersonAccount())
     
 @api_person.route("/person/save", methods=["POST"])
-@expects_json(schema_person)
+# @expects_json(schema_person)
 def createPerson():
     data = request.json
     result = personController.save_person(data)
     if result == -2:
         return make_response(jsonify({"error": "El correo electrónico ya está registrado"}), 400)
-    if result == -9:
+    elif result == -9:
         return make_response(jsonify({"error": "Cédula ya registrada"}), 400)
     elif result == 1:
-        return make_response_ok({"success": Success.success["1"]})
+        return make_response_ok({"success": "Persona registrada exitosamente"})  
     elif result == -1:
         return make_response_error(Errors.error["-1"], 404)
     elif result == -4:
         return make_response_error(Errors.error["-4"], 500)
     elif result == -8:
-        return make_response(jsonify({"error": "cédula inválida"}), 400)
+        return make_response(jsonify({"error": "Cédula inválida"}), 400)
     elif result == -11:
-        return make_response_error(Errors.error["-11"],400)
-    elif result == -12:
-        return make_response_error(Errors.error["-12"], 400)
+        return make_response_error(Errors.error["-11"], 400)
+    else:
+        return make_response_error("Error desconocido", 500)
 
 @api_person.route('/modify_person/<external_id>', methods=['POST'])
 # @expects_json(schema_person)
@@ -83,3 +83,26 @@ def list_roles():
         200,
     )
     
+@api_person.route('/search/person', methods=['GET'])
+def search():
+    atribute = request.args.get('atribute')
+    if not atribute:
+        return jsonify({'error': 'Attribute is required'}), 400
+    
+    result = personController.search_person(atribute)
+    
+    if result == -3:
+        return jsonify({'error': 'Person not found'}), 404
+    
+    # Supongo que tu modelo Person tiene un método o propiedad para convertir a dict
+    person_data = {
+        'identification': result.identification,
+        'name': result.name,
+        'lastname': result.lastname,
+        'phone': result.phone,
+        'email': result.account.email,
+        'rol': result.rol.rol,
+        'status': result.account.status,
+    }
+    
+    return jsonify(person_data), 200
