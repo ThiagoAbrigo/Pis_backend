@@ -33,16 +33,12 @@ def createPerson():
     result = personController.save_person(data)
     if result == -2:
         return make_response(jsonify({"error": "El correo electrónico ya está registrado"}), 400)
-    elif result == -9:
-        return make_response(jsonify({"error": "Cédula ya registrada"}), 400)
     elif result == 1:
         return make_response(jsonify({"success": "Persona registrada exitosamente"}), 201)
     elif result == -1:
         return make_response(jsonify({"error": "Rol no encontrado"}), 404)
     elif result == -4:
         return make_response(jsonify({"error": "Error interno del servidor"}), 500)
-    elif result == -8:
-        return make_response(jsonify({"error": "Cédula inválida"}), 400)
     elif result == -11:
         return make_response(jsonify({"error": "Correo electrónico inválido"}), 400)
     else:
