@@ -26,7 +26,7 @@ def listPersonAccount():
     return make_response_ok(personController.listPersonAccount())
     
 @api_person.route("/person/save", methods=["POST"])
-@expects_json(schema_person)
+# @expects_json(schema_person)
 def createPerson():
     data = request.json
     result = personController.save_person(data)
@@ -86,12 +86,27 @@ def list_roles():
         ),
         200,
     )
-
-@api_person.route("/search/person/<attribute>", methods = ['GET'])
-def search_person(attribute):
     
-    result = personController.search_person(attribute)
-    if (result == -3):
-        return make_response_error(Errors.error["-3"], 404)
-    else: 
-        return result
+@api_person.route('/search/person', methods=['GET'])
+def search():
+    atribute = request.args.get('atribute')
+    if not atribute:
+        return jsonify({'error': 'Attribute is required'}), 400
+    
+    result = personController.search_person(atribute)
+    
+    if result == -3:
+        return jsonify({'error': 'Person not found'}), 404
+    
+    # Supongo que tu modelo Person tiene un método o propiedad para convertir a dict
+    person_data = {
+        'identification': result.identification,
+        'name': result.name,
+        'lastname': result.lastname,
+        'phone': result.phone,
+        'email': result.account.email,
+        'rol': result.rol.rol,
+        'status': result.account.status,
+    }
+    
+    return jsonify(person_data), 200

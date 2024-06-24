@@ -25,6 +25,6 @@ class Person(db.Model):
             "name": self.name,
             "lastname": self.lastname,
             "phone": self.phone,
-            "identification": self.identification,
+            "identification": str(self.identification)
         }
         

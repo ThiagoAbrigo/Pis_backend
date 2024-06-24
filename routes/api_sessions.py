@@ -14,15 +14,11 @@ loginController = LoginController()
 @expects_json(schema_login)
 def session():
     data = request.json
-    id = loginController.login(data)
-
-    if type(id) == int:
-        return make_response(
-            jsonify({"msg" : "ERROR", "code" : 400, "data" :{"error" : Errors.error.get(str(id))}}), 
-            400
-        )
-    else:
-        return make_response(
-            jsonify({"msg": "OK", "code": 200, "data": id}),
-            200
-        )
+    result = loginController.login(data)
+    
+    if isinstance(result, tuple):
+        response, status_code = result
+        return jsonify(response), status_code
+    
+    # Return success response
+    return jsonify(result), 200

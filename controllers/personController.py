@@ -75,48 +75,52 @@ class PersonController:
             return -2
         
         person = Person()
-        rol_name = data["rol"]
-        rol = Rol.query.filter_by(rol=rol_name).first()
-        if rol:
-            if not self.validate_ID(data["identification"]):
-                return -8
-            elif not self.validate_Email(data["email"]):
-                return -11
 
-            person.name = data["name"]
-            person.lastname = data["lastname"]
-            person.phone = data["phone"]
-            person.identification = data["identification"]
-            person.external_id = uuid.uuid4()
-            person.rol_id = rol.id
-            db.session.add(person)
-
-            try:
-                db.session.commit()
-            except Exception as e:
-                db.session.rollback()
-                logging.error(f'Error committing person: {e}')
-                return -4
-
-            hashed_password = bcrypt.hashpw(
-                data["password"].encode("utf-8"), bcrypt.gensalt()
-            )
-            account = Account()
-            account.email = data["email"]
-            account.password = hashed_password.decode("utf-8")
-            account.person_id = person.id
-            account.external_id = uuid.uuid4()
-            db.session.add(account)
-
-            try:
-                db.session.commit()
-                return 1
-            except Exception as e:
-                db.session.rollback()
-                logging.error(f'Error committing account: {e}')
-                return -4
+        if "rol" in data:
+            rol_name = data["rol"]
+            rol = Rol.query.filter_by(rol=rol_name).first()
+            if not rol:
+                return -1
         else:
-            return -1
+            rol = Rol.query.filter_by(rol="Usuario").first()
+
+        if not self.validate_ID(data["identification"]):
+            return -8
+        elif not self.validate_Email(data["email"]):
+            return -11
+
+        person.name = data["name"]
+        person.lastname = data["lastname"]
+        person.phone = data["phone"]
+        person.identification = data["identification"]
+        person.external_id = uuid.uuid4()
+        person.rol_id = rol.id
+        db.session.add(person)
+
+        try:
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            logging.error(f'Error committing person: {e}')
+            return -4
+
+        hashed_password = bcrypt.hashpw(
+            data["password"].encode("utf-8"), bcrypt.gensalt()
+        )
+        account = Account()
+        account.email = data["email"]
+        account.password = hashed_password.decode("utf-8")
+        account.person_id = person.id
+        account.external_id = uuid.uuid4()
+        db.session.add(account)
+
+        try:
+            db.session.commit()
+            return 1
+        except Exception as e:
+            db.session.rollback()
+            logging.error(f'Error committing account: {e}')
+            return -4
 
     def modify_person(self, external_id, data):
         person = Person.query.filter_by(external_id=external_id).first()
@@ -167,41 +171,14 @@ class PersonController:
             return False
 
     def search_person(self, atribute):
-        identification = Person.query.filter_by(identification=atribute).first()
-        name = Person.query.filter_by(name=atribute).first()
-        if identification:
-            return identification
-        else:
-            if name:
-                return name
-            else:
-                return -3
-    
-    def search_person(self, attribute):
-        person = Person.query.filter_by(identification=attribute).first()
+        person = Person.query.filter(
+            (Person.identification == atribute) | (Person.name == atribute)
+        ).first()
         
-        if not person:
-            person = Person.query.filter_by(name=attribute).first()
-        if not person:
-            person = Person.query.filter_by(phone=attribute).first()
         if person:
-            account = person.account
-            rol = person.rol
-            person_data = {
-                "external_id": person.external_id,
-                "name": person.name,
-                "lastname": person.lastname,
-                "phone": person.phone,
-                "identification": person.identification,
-                "email": account.email if account else None,
-                "status": account.status if account else None,
-                "rol": rol.rol if rol else None,
-            }
-            return person_data
+            return person
         else:
             return -3
-
-    
 
     def all_rol(self):
         roles = Rol.query.all()
