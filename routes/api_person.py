@@ -36,17 +36,17 @@ def createPerson():
     elif result == -9:
         return make_response(jsonify({"error": "Cédula ya registrada"}), 400)
     elif result == 1:
-        return make_response_ok({"success": "Persona registrada exitosamente"})  
+        return make_response(jsonify({"success": "Persona registrada exitosamente"}), 201)
     elif result == -1:
-        return make_response_error(Errors.error["-1"], 404)
+        return make_response(jsonify({"error": "Rol no encontrado"}), 404)
     elif result == -4:
-        return make_response_error(Errors.error["-4"], 500)
+        return make_response(jsonify({"error": "Error interno del servidor"}), 500)
     elif result == -8:
         return make_response(jsonify({"error": "Cédula inválida"}), 400)
     elif result == -11:
-        return make_response_error(Errors.error["-11"], 400)
+        return make_response(jsonify({"error": "Correo electrónico inválido"}), 400)
     else:
-        return make_response_error("Error desconocido", 500)
+        return make_response(jsonify({"error": "Error desconocido"}), 500)
 
 @api_person.route('/modify_person/<external_id>', methods=['POST'])
 # @expects_json(schema_person)
