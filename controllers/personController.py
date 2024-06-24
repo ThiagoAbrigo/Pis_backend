@@ -112,6 +112,7 @@ class PersonController:
         account.password = hashed_password.decode("utf-8")
         account.person_id = person.id
         account.external_id = uuid.uuid4()
+        account.status = 'activo'  # Asignar estado activo por defecto
         db.session.add(account)
 
         try:
