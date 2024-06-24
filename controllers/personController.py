@@ -72,7 +72,7 @@ class PersonController:
         
         repeated_identification = Person.query.filter_by(identification=data["identification"]).first()
         if repeated_identification:
-            return -9
+            return -2
         
         person = Person()
 

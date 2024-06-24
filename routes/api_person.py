@@ -9,7 +9,6 @@ from utils.utilities.response_http import make_response_error, make_response_ok
 api_person = Blueprint("api_person", __name__)
 personController = PersonController()
 
-
 @api_person.route("/person", methods=["GET"])
 def listPerson():
     return make_response(
@@ -32,21 +31,24 @@ def createPerson():
     data = request.json
     result = personController.save_person(data)
     if result == -2:
-        return make_response(jsonify({"error": "El correo electrónico ya está registrado"}), 400)
-    elif result == -9:
-        return make_response(jsonify({"error": "Cédula ya registrada"}), 400)
+        return make_response(jsonify({"error": Errors.error["-2"]}), 400)
+    elif result == -13:
+        return make_response(jsonify({"error": Errors.error["-13"]}), 400)
     elif result == 1:
-        return make_response_ok({"success": "Persona registrada exitosamente"})  
+        return make_response(jsonify({"success": Success.success["1"]}), 400)
     elif result == -1:
-        return make_response_error(Errors.error["-1"], 404)
+        return make_response(jsonify({"error": Errors.error["-1"]}), 400)
     elif result == -4:
-        return make_response_error(Errors.error["-4"], 500)
+        return make_response(jsonify({"error": Errors.error["-4"]}), 400)
     elif result == -8:
-        return make_response(jsonify({"error": "Cédula inválida"}), 400)
+        return make_response(jsonify({"error": Errors.error["-8"]}), 400)
     elif result == -11:
-        return make_response_error(Errors.error["-11"], 400)
+        return make_response(jsonify({"error": Errors.error["-11"]}), 400)
+    elif result == -12:
+        return make_response(jsonify({"error": Errors.error["-12"]}), 400)
     else:
         return make_response_error("Error desconocido", 500)
+
 
 @api_person.route('/modify_person/<external_id>', methods=['POST'])
 # @expects_json(schema_person)
@@ -54,10 +56,12 @@ def modify_person(external_id):
     data = request.json
     modified_person = personController.modify_person(external_id, data)
     print(external_id)
-    if (modified_person == -3):
-        return make_response_error(Errors.error["-3"], 404)
+    if modified_person == -3:
+        return make_response(jsonify({"error": Errors.error["-3"]}), 400)
     elif modified_person == -8:
-        return make_response_error(Errors.error["-8"], 400)
+        return make_response(jsonify({"error": Errors.error["-8"]}), 400)
+    elif modified_person == -13:
+        return make_response(jsonify({"error": Errors.error["-13"]}), 400)
     else:
         return make_response_ok({"success": Success.success["1"]})
     
