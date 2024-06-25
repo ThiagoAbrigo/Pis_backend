@@ -31,24 +31,17 @@ def createPerson():
     data = request.json
     result = personController.save_person(data)
     if result == -2:
-        return make_response(jsonify({"error": Errors.error["-2"]}), 400)
-    elif result == -13:
-        return make_response(jsonify({"error": Errors.error["-13"]}), 400)
+        return make_response(jsonify({"error": "El correo electrónico ya está registrado"}), 400)
     elif result == 1:
-        return make_response(jsonify({"success": Success.success["1"]}), 400)
+        return make_response(jsonify({"success": "Persona registrada exitosamente"}), 201)
     elif result == -1:
-        return make_response(jsonify({"error": Errors.error["-1"]}), 400)
+        return make_response(jsonify({"error": "Rol no encontrado"}), 404)
     elif result == -4:
-        return make_response(jsonify({"error": Errors.error["-4"]}), 400)
-    elif result == -8:
-        return make_response(jsonify({"error": Errors.error["-8"]}), 400)
+        return make_response(jsonify({"error": "Error interno del servidor"}), 500)
     elif result == -11:
-        return make_response(jsonify({"error": Errors.error["-11"]}), 400)
-    elif result == -12:
-        return make_response(jsonify({"error": Errors.error["-12"]}), 400)
+        return make_response(jsonify({"error": "Correo electrónico inválido"}), 400)
     else:
-        return make_response_error("Error desconocido", 500)
-
+        return make_response(jsonify({"error": "Error desconocido"}), 500)
 
 @api_person.route('/modify_person/<external_id>', methods=['POST'])
 # @expects_json(schema_person)

@@ -5,6 +5,8 @@ from datetime import datetime, timedelta, timezone
 from flask import current_app
 from models.person import Person
 import bcrypt
+
+from models.rol import Rol
 class LoginController:
     def getPerson(self, id_p):
         return Person.query.filter_by(id=id_p).first()
@@ -24,10 +26,11 @@ class LoginController:
                         algorithm="HS512",
                     )
                     person = self.getPerson(accountA.person_id)
+                    role = Rol.query.filter_by(id=person.rol_id).first().rol
                     user_info = {
                         "token": token,
                         "user": person.name,
-                        "role": person.rol_id
+                        "role": role
                     }
                     return user_info
                 else:
